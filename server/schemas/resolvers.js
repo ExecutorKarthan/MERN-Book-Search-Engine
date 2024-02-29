@@ -44,11 +44,15 @@ const resolvers = {
     },
 
     // Add a third argument to the resolver to access data in our `context`
-    addBook: async (parent, { thoughtText }, context) => {
+    saveBook: async (parent, {bookId, authors, description, title, image, link }, context) => {
       if (context.user) {
         const book = await Book.create({
-          thoughtText,
-          thoughtAuthor: context.user.username,
+          bookId,
+          authors, 
+          description,
+          title,
+          image, 
+          link, 
         });
 
         await User.findOneAndUpdate(
@@ -61,19 +65,12 @@ const resolvers = {
       throw AuthenticationError;
       ('You need to be logged in!');
     },
-    // Set up mutation so a logged in user can only remove their profile and no one else's
-    removeProfile: async (parent, args, context) => {
-      if (context.user) {
-        return Profile.findOneAndDelete({ _id: context.user._id });
-      }
-      throw AuthenticationError;
-    },
     // Make it so a logged in user can only remove a skill from their own profile
-    removeSkill: async (parent, { skill }, context) => {
+    removeSkill: async (parent, { bookId }, context) => {
       if (context.user) {
         return Profile.findOneAndUpdate(
           { _id: context.user._id },
-          { $pull: { skills: skill } },
+          { $pull: { books: bookId } },
           { new: true }
         );
       }
