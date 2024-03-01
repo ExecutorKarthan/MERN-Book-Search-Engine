@@ -3,14 +3,6 @@ const { signToken, AuthenticationError } = require('../utils/auth');
 
 const resolvers = {
   Query: {
-    users: async () => {
-      return User.find().populate('users');
-    },
-
-    user: async (parent, { userId }) => {
-      return User.findOne({ _id: userId });
-    },
-    // By adding context to our query, we can retrieve the logged in user without specifically searching for them
     me: async (parent, args, context) => {
       if (context.user) {
         return User.findOne({ _id: context.user._id });
@@ -66,7 +58,7 @@ const resolvers = {
       ('You need to be logged in!');
     },
     // Make it so a logged in user can only remove a skill from their own profile
-    removeSkill: async (parent, { bookId }, context) => {
+    removeBook: async (parent, { bookId }, context) => {
       if (context.user) {
         return Profile.findOneAndUpdate(
           { _id: context.user._id },

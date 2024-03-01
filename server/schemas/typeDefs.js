@@ -1,12 +1,6 @@
 const typeDefs = `
   type Query{
-    me: User!
-  }
-
-  type Query {
-    users: [User]!
-    user(userId: ID!): User!
-    me: User!
+    me: User
   }
 
   type Mutation {
@@ -20,13 +14,13 @@ const typeDefs = `
     _id: ID!
     username: String!
     email: String!
-    bookCount: Integer
+    bookCount: Int
     savedBooks: [Book]
   }
 
   type Book {
     bookId: ID!
-    authors: Array!
+    authors: [String]
     description: String
     title: String
     image: String
@@ -35,7 +29,7 @@ const typeDefs = `
 
   input BookInput{
     bookId: ID!
-    authors: Array!
+    authors: [String]
     description: String!
     title: String
     image: String
