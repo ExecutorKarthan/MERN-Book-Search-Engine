@@ -31,8 +31,7 @@ const LoginForm = () => {
         variables: {...userFormData},
       });
 
-      console.log(data);
-      Auth.login(data.token);
+      Auth.login(data.login.token);
     } catch (err) {
       console.error(err);
       setShowAlert(true);
