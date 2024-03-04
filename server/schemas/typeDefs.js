@@ -1,8 +1,6 @@
 const typeDefs = `
   type Query{
-    me: User
-    users: [User]!
-    user(userId: ID): User
+    me(userId: ID!): User
   }
 
   type Mutation {

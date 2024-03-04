@@ -7,6 +7,8 @@ import {
   Col
 } from 'react-bootstrap';
 
+import { useParams } from 'react-router-dom';
+
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
 import { useMutation, useQuery } from '@apollo/client';
@@ -14,12 +16,21 @@ import {QUERY_GET_ME} from '../utils/queries'
 import {REMOVE_BOOK} from '../utils/mutations';
 
 const SavedBooks = () => {
-  const {loading, data} = useQuery(QUERY_GET_ME)
+
+  const token = Auth.getToken()
+
+  const user = Auth.getProfile(token)
+
+  console.log({...user.data})
+
+  const {loading, data} = useQuery(QUERY_GET_ME, {
+    variables: {_id: user.data._id}
+  })
   const [removeBook, {error}] = useMutation(REMOVE_BOOK)
 
   console.log(data)
 
-  const userData = data?.users.get_me;
+  const userData = data?.me || {};
 
   console.log(userData)
 
