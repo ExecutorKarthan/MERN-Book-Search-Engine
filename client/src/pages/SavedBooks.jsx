@@ -17,7 +17,13 @@ const SavedBooks = () => {
   const {loading, data} = useQuery(QUERY_GET_ME)
   const [removeBook, {error}] = useMutation(REMOVE_BOOK)
 
-  const userData = data?.get_me || {};
+  console.log(data)
+
+  const userData = data?.users.get_me;
+
+  console.log(userData)
+
+  const userDataLength = Object.keys(userData).length;
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
@@ -28,9 +34,7 @@ const SavedBooks = () => {
     }
 
     try {
-      const {data} = await removeBook({
-        variables: {bookId}
-      });
+      const response = await removeBook(bookId);
 
       if (!response.ok) {
         throw new Error('something went wrong!');
@@ -46,7 +50,7 @@ const SavedBooks = () => {
   };
 
   // if data isn't here yet, say so
-  if (!userData) {
+  if (!userDataLength) {
     return <h2>LOADING...</h2>;
   }
 
@@ -59,8 +63,8 @@ const SavedBooks = () => {
       </div>
       <Container>
         <h2 className='pt-5'>
-          {userData.savedBooks
-            ? `Viewing ${userData.savedBooks} saved ${userData.savedBooks === 1 ? 'book' : 'books'}:`
+          {userData.savedBooks.length
+            ? `Viewing ${userData.savedBooks.length} saved ${userData.savedBooks.length === 1 ? 'book' : 'books'}:`
             : 'You have no saved books!'}
         </h2>
         <Row>
