@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User} = require('../models');
 const { signToken, AuthenticationError } = require('../utils/auth');
 
 const resolvers = {
@@ -51,15 +51,19 @@ const resolvers = {
       ('You need to be logged in!');
     },
     // Make it so a logged in user can only remove a skill from their own profile
-    removeBook: async (parent, { bookId }, context) => {
-      if (context.user) {
+    removeBook: async (parent, { userId, bookId }, context) => {
+      if(context.user){
         return await User.findOneAndUpdate(
           { _id: context.user._id },
-          { $pull: { savedBooks: {bookId} } },
+          { $pull: 
+            { savedBooks: {
+                bookId: bookId,
+              }, 
+            }, 
+          },
           { new: true }
         );
       }
-      throw AuthenticationError;
     },
   },
 };
