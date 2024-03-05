@@ -7,8 +7,6 @@ import {
   Col
 } from 'react-bootstrap';
 
-import { useParams } from 'react-router-dom';
-
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
 import { useMutation, useQuery } from '@apollo/client';
@@ -43,9 +41,9 @@ const SavedBooks = () => {
           userId: userData._id, 
           bookId: bookId}
       });
-      console.log(data)
       // upon success, remove book's id from localStorage
       removeBookId(bookId);
+      window.location.reload();
     } catch (err) {
       console.error(err);
     }
@@ -70,9 +68,9 @@ const SavedBooks = () => {
             : 'You have no saved books!'}
         </h2>
         <Row>
-          {userData.savedBooks.map((book) => {
+          {userData.savedBooks.map((book, id) => {
             return (
-              <Col md="4">
+              <Col key = {id} md="4">
                 <Card key={book.bookId} border='dark'>
                   {book.image ? <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' /> : null}
                   <Card.Body>
