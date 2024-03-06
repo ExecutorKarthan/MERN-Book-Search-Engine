@@ -1,3 +1,4 @@
+//Create a schema to structure data in the database
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
 
@@ -54,6 +55,7 @@ userSchema.virtual('bookCount').get(function () {
   return this.savedBooks.length;
 });
 
+//Export the model and module for use
 const User = model('User', userSchema);
 
 module.exports = User;

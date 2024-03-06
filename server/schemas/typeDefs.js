@@ -1,3 +1,4 @@
+//Create definitions to outline how data will be handled moving in and out of the database
 const typeDefs = `
   type Query{
     me(userId: ID!): User
@@ -43,4 +44,5 @@ const typeDefs = `
   
 `;
 
+//Export the module for use
 module.exports = typeDefs;
