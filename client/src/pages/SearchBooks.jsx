@@ -1,3 +1,4 @@
+//Imported needed modules
 import { useState, useEffect } from 'react';
 import {
   Container,
@@ -7,26 +8,22 @@ import {
   Card,
   Row
 } from 'react-bootstrap';
-
 import Auth from '../utils/auth';
 import { searchGoogleBooks } from '../utils/API';
 import { useMutation } from '@apollo/client';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
 import { SAVE_BOOK } from '../utils/mutations';
 
+//Create a constant to display book search results
 const SearchBooks = () => {
-
-  
   // create state for holding returned google api data
   const [searchedBooks, setSearchedBooks] = useState([]);
   // create state for holding our search field data
   const [searchInput, setSearchInput] = useState('');
-
   // create state to hold saved bookId values
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
-
+  //Create a mutator to handle saving books to the database
   const [saveBook, {error}] = useMutation(SAVE_BOOK)
-
   // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
   // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
   useEffect(() => {
@@ -35,21 +32,22 @@ const SearchBooks = () => {
 
   // create method to search for books and set state on form submit
   const handleFormSubmit = async (event) => {
+    //Prevent the page from resetting when the form is submitted
     event.preventDefault();
-
+    //If there is no search input, do not query the API
     if (!searchInput) {
       return false;
     }
-
+    //Try to query the API with the search text from the input box
     try {
       const response = await searchGoogleBooks(searchInput);
-
+      //If the response is not okay, return an error
       if (!response.ok) {
         throw new Error('something went wrong!');
       }
-
+      //Provide a response with the data if it exists
       const { items } = await response.json();
-
+      //Make a map of each book from the search, including their data
       const bookData = items.map((book) => ({
         bookId: book.id,
         authors: book.volumeInfo.authors || ['No author to display'],
@@ -57,10 +55,13 @@ const SearchBooks = () => {
         description: book.volumeInfo.description,
         image: book.volumeInfo.imageLinks?.thumbnail || '',
       }));
-
+      //Update the state variable with the book data
       setSearchedBooks(bookData);
+      //Reset the search input
       setSearchInput('');
-    } catch (err) {
+    } 
+    //Provide an error if the try statements fail
+    catch (err) {
       console.error(err);
     }
   };
@@ -99,6 +100,7 @@ const SearchBooks = () => {
       <div className="text-light bg-dark p-5">
         <Container>
           <h1>Search for Books!</h1>
+          {/*Create a form to accept search queries for books*/}
           <Form onSubmit={handleFormSubmit}>
             <Row>
               <Col xs={12} md={8}>
@@ -120,7 +122,7 @@ const SearchBooks = () => {
           </Form>
         </Container>
       </div>
-
+      {/*Create a headline informing the user as to how many books are in the results*/}
       <Container>
         <h2 className='pt-5'>
           {searchedBooks.length
@@ -128,6 +130,7 @@ const SearchBooks = () => {
             : 'Search for a book to begin'}
         </h2>
         <Row>
+        {/*Create a card to hold the data of the searched book results*/}
           {searchedBooks.map((book) => {
             return (
               <Col md="4" key={book.bookId}>
@@ -160,4 +163,5 @@ const SearchBooks = () => {
   );
 };
 
+//Export the module for use
 export default SearchBooks;

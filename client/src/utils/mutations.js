@@ -1,5 +1,7 @@
+//Imported needed modules
 import { gql } from '@apollo/client';
 
+//Create a mutation that will update the database with the logged in user's token
 export const LOGIN_USER = gql`
   mutation login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
@@ -12,6 +14,7 @@ export const LOGIN_USER = gql`
   }
 `;
 
+//Create a mutation that will add a user to the database
 export const ADD_USER = gql`
   mutation addUser($username: String!, $email: String!, $password: String!) {
     addUser(username: $username, email: $email, password: $password) {
@@ -25,6 +28,7 @@ export const ADD_USER = gql`
   }
 `;
 
+//Create a mutation to save a book to a user's saved book list in the database
 export const SAVE_BOOK = gql`
   mutation saveBook($input: BookInput!) {
     saveBook(input: $input) {
@@ -40,8 +44,7 @@ export const SAVE_BOOK = gql`
   }
 `;
 
-
-
+//Create a mutation to remove a book from a user's saved book list in the database
 export const REMOVE_BOOK = gql`
   mutation removeBook($userId: ID!, $bookId: String!) {
     removeBook(userId: $userId, bookId: $bookId) {        

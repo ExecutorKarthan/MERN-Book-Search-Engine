@@ -1,19 +1,22 @@
+//Import needed modules
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
 import SignUpForm from './SignupForm';
 import LoginForm from './LoginForm';
-
 import Auth from '../utils/auth';
 
+//Create a constant to hold the rendering data to make the navigation bar
 const AppNavbar = () => {
   // set modal display state
   const [showModal, setShowModal] = useState(false);
 
+  //Create a return that outlines the javascript to be passed to the web browser
   return (
     <>
       <Navbar bg='dark' variant='dark' expand='lg'>
         <Container fluid>
+        {/*Create a link to go to the search page*/}
           <Navbar.Brand as={Link} to='/'>
             Google Books Search
           </Navbar.Brand>
@@ -74,4 +77,5 @@ const AppNavbar = () => {
   );
 };
 
+//Export the module for use
 export default AppNavbar;

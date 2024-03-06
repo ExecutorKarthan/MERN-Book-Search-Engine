@@ -1,3 +1,4 @@
+// Create rules to help lint to display errors in Visual Studio Code
 module.exports = {
   env: { browser: true, es2020: true },
   extends: [

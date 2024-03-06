@@ -1,11 +1,12 @@
+//Imported needed modules
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
-
 import App from './App.jsx'
 import SearchBooks from './pages/SearchBooks'
 import SavedBooks from './pages/SavedBooks'
 
+//Create a router to handle outlet requests
 const router = createBrowserRouter([
   {
     path: '/',
@@ -23,6 +24,7 @@ const router = createBrowserRouter([
   }
 ])
 
+//Create the router provider to affect the main app
 ReactDOM.createRoot(document.getElementById('root')).render(
   <RouterProvider router={router} />
 )

@@ -46,4 +46,5 @@ class AuthService {
   }
 }
 
+//Export the module for use
 export default new AuthService();

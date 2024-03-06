@@ -1,3 +1,4 @@
+//Imported needed modules
 import './App.css';
 import {
   ApolloClient,
@@ -7,9 +8,9 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { Outlet } from 'react-router-dom';
-
 import Navbar from './components/Navbar';
 
+//Create a constant to generate a link to the database
 const httpLink = createHttpLink({
   uri: '/graphql',
 });
@@ -26,13 +27,14 @@ const authLink = setContext((_, { headers }) => {
     },
   };
 });
-
+//Create an ApolloClient to handle database requests
 const client = new ApolloClient({
   // Set up our client to execute the `authLink` middleware prior to making the request to our GraphQL API
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
 
+//Create a function to render the data to the browser
 function App() {
   return (
     <ApolloProvider client={client}>
@@ -42,4 +44,5 @@ function App() {
   );
 }
 
+//Export the module for use
 export default App;
